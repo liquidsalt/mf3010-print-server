@@ -1,0 +1,19 @@
+[Unit]
+Description=Canon MF3010 print server
+Wants=network-online.target
+After=network-online.target avahi-daemon.service
+
+[Container]
+Image=localhost/mf3010-print-server
+Network=host
+Volume=mf3010-cups:/etc/cups
+Volume=/dev/bus/usb:/dev/bus/usb
+Volume=/run/dbus/system_bus_socket:/run/dbus/system_bus_socket
+PodmanArgs=--device-cgroup-rule="c 189:* rmw"
+SecurityLabelDisable=true
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
